@@ -1,0 +1,50 @@
+#+name: graph-from-tables
+#+HEADER: :var nodes=q2-a1* graph=q2-a1 horiz='t
+#+BEGIN_SRC emacs-lisp :file filename.png :colnames yes :exports none
+(org-babel-execute:dot
+ (concat
+  "digraph {\n"
+  (when horiz "rankdir=LR;\n")       ;up-down or left-right
+  (mapconcat
+   (lambda (x)
+     (format "%s [label=\"%s\" shape=%s style=\"filled\" fillcolor=\"%s\"]"
+             (car x)
+             (nth 1 x)
+             (if (string= "" (nth 2 x)) "box" (nth 2 x))
+             (if (string= "" (nth 3 x)) "none" (nth 3 x))
+             )) nodes "\n")
+  "\n"
+  (mapconcat
+   (lambda (x)
+     (format "%s -> %s [label=\"%s\"]"
+             (car x) (nth 1 x) (nth 2 x))) graph "\n")
+  "}\n") params)
+#+END_SRC   
+
+
+
+#+name: table1name
+| node | label | shape        | fillcolor |
+|------+-------+--------------+-----------|
+|      |       |              |           |
+|    o |       | none         | none      |
+|    0 | q0    | circle       | none      |
+|    1 | q1    | circle       | none      |
+|    2 | q2    | circle       | none      |
+|    f | qf    | doublecircle | none      |
+
+#+name: table2name
+| from | to | label |
+|------+----+-------|
+|      |    |       |
+|    o |  0 |       |
+|    0 |  0 |     0 |
+|    0 |  1 |     1 |
+|    2 |  0 |     0 |
+|    1 |  1 |     1 |
+|    1 |  2 |     0 |
+|    2 |  f |     1 |
+|    f |  f |   0,1 |
+
+#+CALL: graph-from-tables[:file filename.png](nodes=table1name[2:-1],graph=table2name[2:-1],horiz='t) :results file
+#the first line of the table isn't read as graph input
