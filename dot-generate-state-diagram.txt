@@ -1,3 +1,4 @@
+The author of the original code is [Rick Frankel](http://article.gmane.org/gmane.emacs.orgmode/73854).
 #+name: graph-from-tables
 #+HEADER: :var nodes=q2-a1* graph=q2-a1 horiz='t
 #+BEGIN_SRC emacs-lisp :file filename.png :colnames yes :exports none
