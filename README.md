@@ -7,3 +7,7 @@ I'm learning org mode to explore possiblities that emacs offers.
   I'm trying to org mode to write assignment for my Introduction to Theoretical Computer Science course, which teaches what are automata and how do they work. I need to create **finite state diagrams** and I think org mode might help with that instead of taking pictures of hand-drawn graphs.  
   Place cursor on #+CALL statement and use `C-c C-c` to run the script, the output will be a PNG file located in `:file LOCATION`.
 
+    scratch notes: 
+        special characters can be used as label:
+        [&#UTF8coding](http://www.graphviz.org/content/FaqSymbols)
+        the coding can be found [here](http://www.graphviz.org/doc/char.html)
