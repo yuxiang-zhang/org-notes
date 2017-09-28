@@ -1,5 +1,5 @@
 #+name: graph-from-tables
-#+HEADER: :var nodes=tablename* graph=tablename horiz='t
+#+HEADER: :var nodes=eg* graph=eg horiz='t
 #+BEGIN_SRC emacs-lisp :file test.jpg :colnames yes :exports none
 (org-babel-execute:dot
  (concat
@@ -21,9 +21,7 @@
   "}\n") params)
 #+END_SRC   
 
-
-
-#+name: tablename*
+#+name: eg*
 | node | label | shape        |
 |------+-------+--------------|
 |      |       |              |
@@ -34,7 +32,7 @@
 |    2 | qf    | doublecircle |
 
 
-#+name: tablename
+#+name: eg
 | from | to | label |
 |------+----+-------|
 |      |    |       |
@@ -46,7 +44,7 @@
 
 
 
-#+CALL: graph-from-tables[:file test.jpg](nodes=tablename*[2:-1],graph=tablename[2:-1],horiz='t) :results file
+#+CALL: graph-from-tables[:file test.jpg](nodes=eg*[2:-1],graph=eg[2:-1],horiz='t) :results file
 
 #+RESULTS:
 [[file:test.jpg]]
