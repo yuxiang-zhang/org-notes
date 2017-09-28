@@ -1,13 +1,13 @@
 #+name: graph-from-tables
-#+HEADER: :var nodes=q2-a1* graph=q2-a1 horiz='t
-#+BEGIN_SRC emacs-lisp :file filename.png :colnames yes :exports none
+#+HEADER: :var nodes=tablename* graph=tablename horiz='t
+#+BEGIN_SRC emacs-lisp :file test.jpg :colnames yes :exports none
 (org-babel-execute:dot
  (concat
   "digraph {\n"
   (when horiz "rankdir=LR;\n")       ;up-down or left-right
   (mapconcat
    (lambda (x)
-     (format "%s [label=\"%s\" shape=%s style=\"filled\" fillcolor=\"%s\"]"
+     (format "%s [label=\"%s\" shape=%s style=\"filled\" fillcolor=\"none\"]"
              (car x)
              (nth 1 x)
              (if (string= "" (nth 2 x)) "box" (nth 2 x))
@@ -23,28 +23,31 @@
 
 
 
-#+name: table1name
-| node | label | shape        | fillcolor |
-|------+-------+--------------+-----------|
-|      |       |              |           |
-|    o |       | none         | none      |
-|    0 | q0    | circle       | none      |
-|    1 | q1    | circle       | none      |
-|    2 | q2    | circle       | none      |
-|    f | qf    | doublecircle | none      |
+#+name: tablename*
+| node | label | shape        |
+|------+-------+--------------|
+|      |       |              |
+|    o |       | none         |
+|    0 | q0    | circle       |
+|    0 | q1    | circle       |
+|    1 | q2    | circle       |
+|    2 | qf    | doublecircle |
 
-#+name: table2name
+
+#+name: tablename
 | from | to | label |
 |------+----+-------|
 |      |    |       |
 |    o |  0 |       |
 |    0 |  0 |     0 |
 |    0 |  1 |     1 |
-|    2 |  0 |     0 |
-|    1 |  1 |     1 |
 |    1 |  2 |     0 |
-|    2 |  f |     1 |
-|    f |  f |   0,1 |
+|    2 |  2 |     0 |
 
-#+CALL: graph-from-tables[:file filename.png](nodes=table1name[2:-1],graph=table2name[2:-1],horiz='t) :results file
-#the first line of the table isn't read as graph input
+
+
+#+CALL: graph-from-tables[:file test.jpg](nodes=tablename*[2:-1],graph=tablename[2:-1],horiz='t) :results file
+
+#+RESULTS:
+[[file:test.jpg]]
+
