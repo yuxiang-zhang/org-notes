@@ -1,0 +1,125 @@
+* Build Diagram
+#+name: FA-diagram-from-tables
+#+HEADER: :var nodes=nodes-fa graph=diagram horiz='t
+#+BEGIN_SRC emacs-lisp :file fa.jpg :colnames yes :exports none
+(org-babel-execute:dot
+ (concat
+  "digraph {\n"
+  (when horiz "rankdir=LR;\n")       ;up-down or left-right
+  (mapconcat
+   (lambda (x)
+     (format "%s [label=\"%s\" shape=%s style=\"filled\" fillcolor=\"none\"]"
+             (car x)
+             (nth 1 x)
+             (if (string= "" (nth 2 x))
+               "circle" 
+               ;else
+               (if (string= "none" (nth 2 x)) 
+                 "none" 
+               ;else
+               (if (string= "f" (nth 2 x))
+                 "doublecircle"
+                 (nth 2 x)))))) nodes "\n")
+  "\n"
+  (mapconcat
+   (lambda (x)
+     (format "%s -> %s [label=\"%s\" style=\"%s\"]"
+             (car x)
+             (nth 2 x)
+             (nth 1 x)
+             (nth 3 x))) graph "\n")
+  "labelloc=\"t\";\nlabel=\"\""
+  "}\n") params)
+#+END_SRC   
+
+#+name: nodes-fa
+| node | label  | state |
+|------+--------+-------|
+|      |        |       |
+|    0 | S      |       |
+|    1 | X      |       |
+|    2 | Y      |       |
+
+#+name: diagram
+| from | label | to | style |
+|------+-------+----+-------|
+|      |       |    |       |
+|    0 |       |  1 |       |
+|    0 |       |  2 |       |
+
+#+CALL: FA-diagram-from-tables[:file ../notes/eg.jpg](nodes=nodes-fa[2:-1],graph=diagram[2:-1]) :results file
+
+#+RESULTS:
+[[file:../notes/eg05.jpg]]
+
+
+* Build Tree
+#+name: tree-from-tables
+#+HEADER: :var nodes=eg* graph=edges horiz='nil
+#+BEGIN_SRC emacs-lisp :file tree.jpg :colnames yes :exports none
+(org-babel-execute:dot
+ (concat
+  "digraph {\n"
+  (when horiz "rankdir=LR;\n")       ;up-down or left-right
+  (mapconcat
+   (lambda (x)
+     (format "%s [label=\"%s\" shape=\"none\" fixedsize=true width=.1 height=.2 style=\"filled\" fillcolor=\"none\"]"
+             (car x)
+             (nth 1 x)
+             )) nodes "\n")
+  "\n"
+  (mapconcat
+   (lambda (x)
+     (format "%s -> %s [label=\"%s\" style=\"%s\"]"
+             (car x)
+             (nth 2 x)
+             (nth 1 x)
+             (nth 3 x))) graph "\n")
+  "labelloc=\"t\";\nlabel=\"\""
+  "}\n") params)
+#+END_SRC   
+
+#+name: nodes-tree
+| node | label  |
+|------+--------|
+|      |        |
+|    0 | S      |
+|    1 | X      |
+|    2 | Y      |
+|    3 | a      |
+|    4 | X      |
+|    5 | b      |
+|    6 | c      |
+|    7 | Y      |
+|    8 | a      |
+|    9 | X      |
+|   10 | b      |
+|   11 | &#955; |
+|   12 | &#955; |
+
+#+name: edges
+| from | label | to | style |
+|------+-------+----+-------|
+|      |       |    |       |
+|    0 |       |  1 |       |
+|    0 |       |  2 |       |
+|    1 |       |  3 |       |
+|    1 |       |  4 |       |
+|    1 |       |  5 |       |
+|    2 |       |  6 |       |
+|    2 |       |  7 |       |
+|    4 |       |  8 |       |
+|    4 |       |  9 |       |
+|    4 |       | 10 |       |
+|    7 |       | 11 |       |
+|    9 |       | 12 |       |
+
+
+
+
+
+#+CALL: tree-from-tables[:file ../notes/tree00.jpg](nodes=nodes-tree[2:-1],graph=tree[2:-1]) :results file
+
+#+RESULTS:
+[[file:../notes/tree00.jpg]]
+
