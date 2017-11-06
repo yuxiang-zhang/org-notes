@@ -15,7 +15,7 @@
                "circle" 
                ;else
                (if (string= "none" (nth 2 x)) 
-                 "none" 
+                 "none fixedsize=true width=0" 
                ;else
                (if (string= "f" (nth 2 x))
                  "doublecircle"
@@ -33,24 +33,30 @@
 #+END_SRC   
 
 #+name: nodes-fa
-| node | label  | state |
-|------+--------+-------|
-|      |        |       |
-|    0 | S      |       |
-|    1 | X      |       |
-|    2 | Y      |       |
+| node | label | state |
+|------+-------+-------|
+|      |       |       |
+|    o |       | none  |
+|    0 | q0    |       |
+|    1 |       |       |
+|    2 |       | f     |
+
 
 #+name: diagram
-| from | label | to | style |
-|------+-------+----+-------|
-|      |       |    |       |
-|    0 |       |  1 |       |
-|    0 |       |  2 |       |
+| from | label                                          | to | style |
+|------+------------------------------------------------+----+-------|
+|      |                                                |    |       |
+|    o |                                                |  0 |       |
+|    0 | b,z,bz\nb,b,bb\nb,a,ba\na,z,az\na,a,aa\na,b,ab |  0 |       |
+|    0 | c,z,z\nc,a,a\nc,b,b                            |  1 |       |
+|    1 |                                                |  1 |       |
+|    1 | &#955;,z,z                                     |  2 |       |
+|    0 | &#955;,z,z                                     |  2 |       |
 
-#+CALL: FA-diagram-from-tables[:file ../notes/eg.jpg](nodes=nodes-fa[2:-1],graph=diagram[2:-1]) :results file
+#+CALL: FA-diagram-from-tables[:file ../notes/cfl02.jpg](nodes=nodes-fa[2:-1],graph=diagram[2:-1]) :results file
 
 #+RESULTS:
-[[file:../notes/eg05.jpg]]
+[[file:../notes/cfl02.jpg]]
 
 
 * Build Tree
