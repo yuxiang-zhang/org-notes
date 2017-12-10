@@ -1,0 +1,154 @@
+* Build Diagram
+#+name: FA-diagram-from-tables
+#+HEADER: :var nodes=nodes-fa graph=diagram horiz='t
+#+BEGIN_SRC emacs-lisp :file fa.jpg :colnames yes :exports none
+(org-babel-execute:dot
+ (concat
+  "digraph {\n"
+  (when horiz "rankdir=LR;\n")       ;up-down or left-right
+  (mapconcat
+   (lambda (x)
+     (format "%s [label=\"%s\" shape=%s style=\"filled\" fillcolor=\"none\"]"
+             (car x)
+             (nth 1 x)
+             (if (string= "" (nth 2 x))
+               "circle fixedsize=true width=.6" 
+               ;else
+               (if (string= "none" (nth 2 x)) 
+                 "none fixedsize=true width=0" 
+               ;else
+               (if (string= "f" (nth 2 x))
+                 "doublecircle fixedsize=true width=.4"
+                 (nth 2 x)))))) nodes "\n")
+  "\n"
+  (mapconcat
+   (lambda (x)
+     (format "%s -> %s [label=\"%s\" color=\"%s\" fontcolor=\"%s\" fontsize=11 fontname=\"palatino\"]"
+             (car x)
+             (nth 2 x)
+             (nth 1 x)
+             (nth 3 x)
+             (nth 3 x))) graph "\n")
+  "labelloc=\"t\";\nlabel=\"\""
+  "}\n") params)
+#+END_SRC   
+
+#+name: nodes-fa
+| node | label           | state |
+|------+-----------------+-------|
+|      |                 |       |
+| o    |                 | none  |
+| 0    | past 1^m        |       |
+| pX   | past 1^n\nput X |       |
+| left | leftmost 1      |       |
+| n    | while n&#8800;0 |       |
+| n1   | n--,j=m         |       |
+| m    | while j&#8800;0        |       |
+| m1   | j--             |       |
+| nm   | 1^nm            |       |
+| nm1  | nm++            |       |
+| cont | continue        |       |
+| m0   | j==0            |       |
+| n0   | n==0            |       |
+| f    |                 | f     |
+
+#+name: diagram
+| from | label             | to   | style |
+|------+-------------------+------+-------|
+|      |                   |      |       |
+| o    |                   | 0    |       |
+| 0    | 1,1,R             | 0    |       |
+| 0    | 0,0,R             | pX   |       |
+| pX   | 1,1,R             | pX   |       |
+| pX   | &#9633;,X,L       | left |       |
+| left | 1,1,L\n0,0,L      | left |       |
+| left | &#9633;,&#9633;,R | n    |       |
+| n    | 1,&#9633;,R       | n1   |       |
+| n1   | 1,1,R             | n1   |       |
+| n1   | 0,0,R             | m    |       |
+| m    | 1,m,R             | m1   |       |
+| m1   | 1,1,R             | m1   |       |
+| m1   | X,X,R             | nm   |       |
+| nm   | 1,1,R             | nm   |       |
+| nm   | &#9633;,1,L       | nm1  |       |
+| nm1  | 1,1,L             | nm1  |       |
+| nm1  | X,X,L             | cont |       |
+| cont | 1,1,L             | cont |       |
+| cont | m,m,R             | m    |       |
+| m    | X,X,L             | m0   |       |
+| m0   | m,1,L             | m0   |       |
+| m0   | 0,0,L             | left |       |
+| n    | 0,0,R             | n0   |       |
+| n0   | 1,1,R             | n0   |       |
+| n0   | X,X,R             | f    |       |
+
+#+CALL: FA-diagram-from-tables[:file ../a5/4b.png](annodes=nodes-fa[2:-1],graph=diagram[2:-1]) :results file
+
+#+RESULTS:
+[[file:../a5/4b.png]]
+
+[[file:../notes
+
+
+
+
+* Build Tree
+#+name: tree-from-tables
+#+HEADER: :var nodes=nodes-tree graph=tree horiz='nil
+#+BEGIN_SRC emacs-lisp :file tree.jpg :colnames yes :exports none
+(org-babel-execute:dot
+ (concat
+  "digraph {\nnodesep=.1;\n"
+  (when horiz "rankdir=LR;\n")       ;up-down or left-right
+  (mapconcat
+   (lambda (x)
+     (format "%s [label=\"%s\" shape=\"none\" fixedsize=true width=.1 height=.2 style=\"filled\" fillcolor=\"none\" fontsize=11 fontname=\"palatino\"]"
+             (car x)
+             (nth 1 x)
+             )) nodes "\n")
+  "\n"
+  (mapconcat
+   (lambda (x)
+     (format "%s -> %s [dir=\"none\"]"
+             (car x)
+             (nth 1 x))) graph "\n")
+  "labelloc=\"t\";\nlabel=\"\""
+  "}\n") params)
+#+END_SRC   
+
+#+name: nodes-tree
+| node | label |
+|------+-------|
+|      |       |
+| S0   | S     |
+| A0   | A     |
+| A1   | A     |
+| B0   | B     |
+| B1   | B     |
+| B2   | B     |
+| B3   | B     |
+| a0   | a     |
+| a1   | a     |
+| a2   | a     |
+| a3   | a     |
+
+#+name: tree
+| from | to |
+|------+----|
+|      |    |
+| S0   | A0 |
+| S0   | A1 |
+| A0   | B0 |
+| A0   | B1 |
+| A1   | B2 |
+| A1   | B3 |
+| B0   | a0 |
+| B1   | a1 |
+| B2   | a2 |
+| B3   | a3 |
+
+#+CALL: tree-from-tables[:file ../notes/wsq7tree.png](nodes=nodes-tree[2:-1],graph=tree[2:-1]) :results file
+
+#+RESULTS:
+[[file:../notes/wsq7tree.png]]
+
