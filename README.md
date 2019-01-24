@@ -1,7 +1,7 @@
 # org-mode-tricks
 I'm learning org mode to explore possiblities that emacs offers.
 
-### Using tables to generate state diagrams and derivation trees
+### Using org tables to generate state diagrams and derivation trees
   The author of the original code is [Rick Frankel](http://article.gmane.org/gmane.emacs.orgmode/73854).  
   I have referred to the tutorial on [Org's Worg](http://orgmode.org/worg/org-tutorials/org-dot-diagrams.html) and another one by [jcs](http://irreal.org/blog/?p=2866).  
   I'm trying org mode in the *Introduction to Theoretical Computer Science* course, which teaches **automata** and how do they work. I need to create **finite state diagrams** and **derivation trees**; I think org mode might help with that instead of drawing them manually.  
