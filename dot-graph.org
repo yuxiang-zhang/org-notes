@@ -43,7 +43,7 @@
 | left | leftmost 1      |       |
 | n    | while n&#8800;0 |       |
 | n1   | n--,j=m         |       |
-| m    | while j&#8800;0        |       |
+| m    | while j&#8800;0 |       |
 | m1   | j--             |       |
 | nm   | 1^nm            |       |
 | nm1  | nm++            |       |
@@ -82,14 +82,10 @@
 | n0   | 1,1,R             | n0   |       |
 | n0   | X,X,R             | f    |       |
 
-#+CALL: FA-diagram-from-tables[:file ../a5/4b.png](annodes=nodes-fa[2:-1],graph=diagram[2:-1]) :results file
+#+CALL: FA-diagram-from-tables[:file ../a.png](annodes=nodes-fa[2:-1],graph=diagram[2:-1]) :results file
 
 #+RESULTS:
-[[file:../a5/4b.png]]
-
-[[file:../notes
-
-
+[[file:../a.png]]
 
 
 * Build Tree
@@ -147,8 +143,9 @@
 | B2   | a2 |
 | B3   | a3 |
 
-#+CALL: tree-from-tables[:file ../notes/wsq7tree.png](nodes=nodes-tree[2:-1],graph=tree[2:-1]) :results file
+#+CALL: tree-from-tables[:file wsq7tree.png](nodes=nodes-tree[2:-1],graph=tree[2:-1]) :results file
 
 #+RESULTS:
-[[file:../notes/wsq7tree.png]]
+[[file:wsq7tree.png]]
 
+ 
