@@ -17,3 +17,7 @@ Explore Org-mode in Emacs
   Special characters can be used as label using [UTF-8 encoding](http://www.graphviz.org/content/FaqSymbols) and the HTML UTF-8 character entities can be found [on Graphviz.org](http://www.graphviz.org/doc/char.html) or [on Quackit.com](https://www.quackit.com/character_sets/html5_entities/html5_entities_all.cfm).  
   Some LISP knowledge prove helpful.  
 
+### Using org tables to generate Prolog declarative database for an efsm.
+  In *Formal Methods* course, the assignment required a formal description of an efsm (Extended finite state machine). This description shall be translated into a state diagram and a Prolog database for logical queries.  
+  Since the process for translating a formal description of automata into a diagram is defined above, its translation to Prolog language seems spontaneous.  
+  So here it is, a simple script in emacs-lisp to transform Org table content into Prolog **facts**.  
