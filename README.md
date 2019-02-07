@@ -16,3 +16,4 @@ Explore Org-mode in Emacs
 #### Notes
   Special characters can be used as label using [UTF-8 encoding](http://www.graphviz.org/content/FaqSymbols) and the HTML UTF-8 character entities can be found [on Graphviz.org](http://www.graphviz.org/doc/char.html) or [on Quackit.com](https://www.quackit.com/character_sets/html5_entities/html5_entities_all.cfm).  
   Some LISP knowledge prove helpful.  
+

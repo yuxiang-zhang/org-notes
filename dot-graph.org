@@ -1,92 +1,125 @@
+
+* Tables
+#+name: nodes
+| node     | state/style | label (nth 1 x) |
+|----------+-------------+-----------------|
+|          |             |                 |
+| o        | point       |                 |
+| locked   |             |                 |
+| unlocked |             |                 |
+
+#+name: diagram
+| from     | label                                               | to       | style |
+|----------+-----------------------------------------------------+----------+-------|
+|          |                                                     |          |       |
+| unlocked | pass, / lock                                        | locked   |       |
+| o        |                                                     | locked   |       |
+| locked   | request entry, [ticket is valid],\n / (unlock;beep) | unlocked |       |
+
+#+CALL: table-to-diagram[:file diagram.png](nodes=nodes[2:-1],graph=diagram[2:-1]) :results file
+
+#+RESULTS:
+[[file:diagram.png]]
+
+* Prolog-related
+** states
+#+name: table-to-prolog
+#+HEADER: :var nodes=nodes graph=diagram
+#+BEGIN_SRC emacs-lisp :file states.pl :colnames yes :exports none
+(write-region
+ (mapconcat
+  (lambda (str)
+    (format "state(%s)."
+            (downcase (car str))))
+  nodes "\n") nil "states.pl")
+#+END_SRC
+
+#+RESULTS: table-to-prolog
+[[file:transitions.pl]]
+
+** transitions
+#+name: table-to-prolog
+#+HEADER: :var nodes=nodes graph=diagram
+#+BEGIN_SRC emacs-lisp :file transitions.pl :colnames yes :exports none
+(write-region 
+ (mapconcat
+  (lambda (str)
+    (format "transition(%s,%s,%s)."
+            (car str)
+            (nth 2 str)
+                                        ;parse transition label
+            (let ((ega (split-string (nth 1 str) ","))
+                  (e "")
+                  (g "")
+                  (a ""))
+              (while ega
+                (if (string-match "/" (car ega))
+                    (setq a (replace-regexp-in-string ".*/\s?" "" (car ega)))
+                  (if (string-match "\\\[" (car ega))
+                      (setq g (replace-regexp-in-string "\\(.*\\\[\\|\\\]\\)" "" (car ega)))
+                    (setq e (car ega))))
+                (setq ega (cdr ega)))
+
+
+; (if (string= "" z)
+; (setq z "null")
+; (if (< 1 (list-length (split-string z " ")))
+; (setq z (concat "'" z "'"))))
+
+(if (string= "" e)
+(setq e "null")
+(if (< 1 (list-length (split-string e " ")))
+(setq e (concat "'" e "'"))))
+(if (string= "" g)
+(setq g "null")
+(if (< 1 (list-length (split-string g " ")))
+(setq g (concat "'" g "'"))))
+(if (string= "" a)
+(setq a "null")
+(if (< 1 (list-length (split-string a " ")))
+(setq a (concat "'" a "'"))))
+
+              (concat e "," g "," a))
+                                        ;end parsing
+            )) graph "\n") nil "transitions.pl")
+#+END_SRC
 * Build Diagram
-#+name: FA-diagram-from-tables
-#+HEADER: :var nodes=nodes-fa graph=diagram horiz='t
-#+BEGIN_SRC emacs-lisp :file fa.jpg :colnames yes :exports none
+#+name: table-to-diagram
+  #+HEADER: :var nodes=nodes graph=diagram horiz='t
+#+BEGIN_SRC emacs-lisp :file diagram.png :colnames yes :exports none
 (org-babel-execute:dot
  (concat
   "digraph {\n"
   (when horiz "rankdir=LR;\n")       ;up-down or left-right
   (mapconcat
    (lambda (x)
-     (format "%s [label=\"%s\" shape=%s style=\"filled\" fillcolor=\"none\"]"
+     (format "%s [label=\"%s\" shape=%s style=filled]"
              (car x)
-             (nth 1 x)
-             (if (string= "" (nth 2 x))
-               "circle fixedsize=true width=.6" 
+             (car x)
+             (if (string= "" (nth 1 x))
+               "rect fixedsize=true fillcolor=none" 
                ;else
-               (if (string= "none" (nth 2 x)) 
-                 "none fixedsize=true width=0" 
+               (if (string= "point" (nth 1 x)) 
+                 "point fixedsize=true width=.1 fillcolor=black" 
                ;else
-               (if (string= "f" (nth 2 x))
-                 "doublecircle fixedsize=true width=.4"
+               (if (string= "f" (nth 1 x))
+                 "doublecircle fixedsize=true width=.1 fillcolor=black"
                  (nth 2 x)))))) nodes "\n")
   "\n"
   (mapconcat
    (lambda (x)
-     (format "%s -> %s [label=\"%s\" color=\"%s\" fontcolor=\"%s\" fontsize=11 fontname=\"palatino\"]"
+     (format "%s -> %s [label=\"%s\" fixedsize=\"shape\" color=\"%s\" fontcolor=\"%s\" fontsize=9 fontname=\"palatino\"]"
              (car x)
              (nth 2 x)
              (nth 1 x)
              (nth 3 x)
              (nth 3 x))) graph "\n")
-  "labelloc=\"t\";\nlabel=\"\""
+  "labelloc=\"t\";\nlabeljust=\"l\";\nlabelfontname=\"helvetica\";\nlabel=\"\""
   "}\n") params)
 #+END_SRC   
 
-#+name: nodes-fa
-| node | label           | state |
-|------+-----------------+-------|
-|      |                 |       |
-| o    |                 | none  |
-| 0    | past 1^m        |       |
-| pX   | past 1^n\nput X |       |
-| left | leftmost 1      |       |
-| n    | while n&#8800;0 |       |
-| n1   | n--,j=m         |       |
-| m    | while j&#8800;0 |       |
-| m1   | j--             |       |
-| nm   | 1^nm            |       |
-| nm1  | nm++            |       |
-| cont | continue        |       |
-| m0   | j==0            |       |
-| n0   | n==0            |       |
-| f    |                 | f     |
-
-#+name: diagram
-| from | label             | to   | style |
-|------+-------------------+------+-------|
-|      |                   |      |       |
-| o    |                   | 0    |       |
-| 0    | 1,1,R             | 0    |       |
-| 0    | 0,0,R             | pX   |       |
-| pX   | 1,1,R             | pX   |       |
-| pX   | &#9633;,X,L       | left |       |
-| left | 1,1,L\n0,0,L      | left |       |
-| left | &#9633;,&#9633;,R | n    |       |
-| n    | 1,&#9633;,R       | n1   |       |
-| n1   | 1,1,R             | n1   |       |
-| n1   | 0,0,R             | m    |       |
-| m    | 1,m,R             | m1   |       |
-| m1   | 1,1,R             | m1   |       |
-| m1   | X,X,R             | nm   |       |
-| nm   | 1,1,R             | nm   |       |
-| nm   | &#9633;,1,L       | nm1  |       |
-| nm1  | 1,1,L             | nm1  |       |
-| nm1  | X,X,L             | cont |       |
-| cont | 1,1,L             | cont |       |
-| cont | m,m,R             | m    |       |
-| m    | X,X,L             | m0   |       |
-| m0   | m,1,L             | m0   |       |
-| m0   | 0,0,L             | left |       |
-| n    | 0,0,R             | n0   |       |
-| n0   | 1,1,R             | n0   |       |
-| n0   | X,X,R             | f    |       |
-
-#+CALL: FA-diagram-from-tables[:file ../a.png](annodes=nodes-fa[2:-1],graph=diagram[2:-1]) :results file
-
-#+RESULTS:
-[[file:../a.png]]
-
+#+RESULTS: table-to-diagram
+[[file:diagram.png]]
 
 * Build Tree
 #+name: tree-from-tables
