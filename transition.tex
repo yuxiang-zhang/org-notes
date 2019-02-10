@@ -1,0 +1,20 @@
+1. $ \xrightarrow {\text {  }} $
+2. $o \xrightarrow {\text {  }} idle$
+3. $idle \xrightarrow {\text { after 2 min }} furcheck$
+4. $warmup \xrightarrow {\text { after 3 min }} fancheck$
+5. $fanchoice \xrightarrow {\text { [curr-temp <= des-temp - 1] }} warmup$
+6. $furchoice \xrightarrow {\text { [curr-temp <= des-temp - 1],\n/(fan off;fur on) }} warmup$
+7. $furcheck \xrightarrow {\text {  }} furchoice$
+8. $furchoice \xrightarrow {\text { [curr-temp >= des-temp] }} idle$
+9. $fancheck \xrightarrow {\text {  }} fanchoice$
+10. $fanchoice \xrightarrow {\text { [curr-temp >= des-temp],\n/(fur off;fan on;click) }} idle$
+11. $idle \xrightarrow {\text { shut off, /(fan off;fur off) }} final$
+12. $config \xrightarrow {\text { do an entry }} set$
+13. $set \xrightarrow {\text { cancel entry\n/prolonged beep }} cancel$
+14. $set \xrightarrow {\text {  }} config$
+15. $config \xrightarrow {\text { complete\n configuration\n/double beep }} cancel$
+16. $config \xrightarrow {\text { 1 min\ninactivity }} cancel$
+17. $cancel \xrightarrow {\text { /led off }} idle$
+18. $warmup \xrightarrow {\text { user input,\n/fur off }} input$
+19. $idle \xrightarrow {\text { user input }} input$
+20. $input \xrightarrow {\text { /(beep;led on;fur off) }} config$
