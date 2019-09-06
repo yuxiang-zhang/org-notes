@@ -1,0 +1,3 @@
+* Centos 7 on ThinkPad
+** Activate middle button trackpoint scroll
+https://wiki.archlinux.org/index.php/TrackPoint#Xorg_configuration
