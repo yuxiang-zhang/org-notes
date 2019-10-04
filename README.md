@@ -40,6 +40,3 @@ https://orgmode.org/org.html#Advanced-features
 | `@1`    | row 1                        |__
 | `@I`    | first hline                  |__
 | `@II+3` | 3rd line below the 2nd hline |__
-
-
-
