@@ -21,7 +21,11 @@ Explore Org-mode in Emacs
   In *Formal Methods* course, the assignment required a formal description of an efsm (Extended finite state machine). This description shall be translated into a state diagram and a Prolog database for logical queries.  
   Since the process for translating a formal description of automata into a diagram is defined above, its translation to Prolog language seems spontaneous.  
   So here it is, a simple script in emacs-lisp to transform Org table content into Prolog **facts**.  
-  
+
+## Org Export Latex Headers
+### No Indent
+`#+LATEX: \setlength\parindent{0pt}`
+
 ## Org-Tables as Spreadsheets
 ### Keys
 | M-S-&#8592; | (org-table-delete-column) |  
@@ -32,11 +36,13 @@ Explore Org-mode in Emacs
 https://orgmode.org/org.html#Advanced-features
 
 ### Field references
+```
 | `@<`    | first row                    |  
 | `@>`    | last row                     |  
-| `@>>>`  | third row from bottom        |__
-| `@0`    | current row                  |__
-| `@+1`   | next row                     |__
-| `@1`    | row 1                        |__
-| `@I`    | first hline                  |__
-| `@II+3` | 3rd line below the 2nd hline |__
+| `@>>>`  | third row from bottom        |
+| `@0`    | current row                  |
+| `@+1`   | next row                     |
+| `@1`    | row 1                        |
+| `@I`    | first hline                  |
+| `@II+3` | 3rd line below the 2nd hline |
+```
