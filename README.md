@@ -22,8 +22,33 @@ Explore Org-mode in Emacs
   Since the process for translating a formal description of automata into a diagram is defined above, its translation to Prolog language seems spontaneous.  
   So here it is, a simple script in emacs-lisp to transform Org table content into Prolog **facts**.  
 
-## Org Export Latex Headers
-### No Indent
+## Org Export
+### Internal links (must contain no space to render properly in PDF)
+#### Add Custom Link
+Using
+```
+* Section One
+:PROPERTIES:
+:CUSTOM_ID: sec:one
+:END:
+```
+or
+```
+* Section One
+  <<sec:one>>
+
+* Section Two
+  <<sec:two>>
+```
+then
+```
+I can reference Section One with  [[sec:one]] and [[sec:one][Custom Text]],
+but I can get the actual section number (1) to resolve.
+```
+#### Use Heading as Link
+Using `* SectionOne` then `[[*SectionOne][Custom Text]]` (no space for the link).  
+After `org-store-link`, use `org-insert-link`. 
+### Latex Headers No Indent
 `#+LATEX: \setlength\parindent{0pt}`
 
 ## Org-Tables as Spreadsheets
