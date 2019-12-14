@@ -23,7 +23,19 @@ Explore Org-mode in Emacs
   So here it is, a simple script in emacs-lisp to transform Org table content into Prolog **facts**.  
 
 ## Org Export
-### Internal links (must contain no space to render properly in PDF)
+### LATEX HEADERS
+#### No Indent
+`#+LATEX: \setlength\parindent{0pt}`
+#### Specify Margin
+```
+\usepackage{geometry}
+\geometry{left=1.0in,right=1.0in,top=1.2in,bottom=1.2in}
+```
+#### Change Font Size
+`\usepackage{extsizes}` in header  
+`#+latex_class_options: [10pt]` in org file
+> The sizes available are 8pt, 9pt, 10pt, 11pt, 12pt, 14pt, 17pt, and 20pt. - [The extsizes classes](http://ctan.mirror.rafal.ca/macros/latex/contrib/extsizes/extsizes.pdf)
+### INTERNAL LINKS (must contain no space to render properly in PDF)
 #### Add Custom Link
 Using
 ```
@@ -48,26 +60,27 @@ but I can get the actual section number (1) to resolve.
 #### Use Heading as Link
 Using `* SectionOne` then `[[*SectionOne][Custom Text]]` (no space for the link).  
 After `org-store-link`, use `org-insert-link`. 
-### Latex Headers No Indent
-`#+LATEX: \setlength\parindent{0pt}`
 
 ## Org-Tables as Spreadsheets
 ### Keys
-| M-S-&#8592; | (org-table-delete-column) |  
-| M-S-&#8594; | (org-table-insert-column) |  
-| M-S-&#8593; | (org-table-kill-row)      |  
-| M-S-&#8595; | (org-table-insert-row)    |  
+Key | Function
+------------ | -------------
+ M-S-&#8592; | (org-table-delete-column) 
+ M-S-&#8594; | (org-table-insert-column) 
+ M-S-&#8593; | (org-table-kill-row)      
+ M-S-&#8595; | (org-table-insert-row)    
 
 https://orgmode.org/org.html#Advanced-features
 
 ### Field references
-```
-| `@<`    | first row                    |  
-| `@>`    | last row                     |  
-| `@>>>`  | third row from bottom        |
-| `@0`    | current row                  |
-| `@+1`   | next row                     |
-| `@1`    | row 1                        |
-| `@I`    | first hline                  |
-| `@II+3` | 3rd line below the 2nd hline |
-```
+Keyword | Reference
+-------- | ---------
+ `@<`    | 1st row                    
+ `@>`    | last row                       
+ `@>>>`  | 3rd row from bottom        
+ `@0`    | current row                  
+ `@+1`   | next row                     
+ `@1`    | row #1                        
+ `@I`    | 1st hline                  
+ `@II+3` | 3rd line below the 2nd hline 
+
